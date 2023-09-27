@@ -1,0 +1,680 @@
+@charset "UTF-8";
+*{
+  margin: 0;
+  padding: 0;
+}
+a{
+  text-decoration: none;
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+li{
+  list-style: none;
+}
+body{
+  overflow: hidden;
+}
+
+.video-box{
+  width: 100%;
+  height: 100%;
+  margin: 0px auto;
+  position: relative;
+}
+
+video{
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+
+.profile-wrap{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 800px;
+  height: 280px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  transition: all 0.5s ease-in-out;
+}
+.profile-wrap .img-box{
+  width: 280px;
+  height: 280px;
+}
+.profile-wrap .img-box img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.coloring-red{
+  color: #B7CFF7;
+}
+.coloring-white{
+  color: #fff;
+}
+.coloring-gray{
+  color: #A2A2A2;
+}
+.profile-wrap .text-box{
+  width: 400px;
+  margin-left: 30px;
+}
+.profile-wrap .text-box .header-box{
+  border-bottom: #b1b1b1 dashed 2px;
+}
+.profile-wrap .text-box .header-box .git-name{
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+.profile-wrap .text-box .header-box .job{
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+.profile-wrap .text-box p{
+  margin-top: 30px;
+  line-height: 25px;
+}
+.modal-btn{
+  width: 120px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  background-color: #B7CFF7;
+  margin-left: 70px;
+  border-radius: 20px;
+}
+@media(max-width: 760px){
+  .profile-wrap{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 400px;
+    height: 500px;
+    overflow: auto;
+    display: block;
+  }
+  .profile-wrap::-webkit-scrollbar{
+    width: 0;
+  }
+  .profile-wrap .text-box{
+    width: 400px;
+    margin-left: 0;
+  }
+  .modal-btn{
+    width: 120px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    background-color: #B7CFF7;
+    margin-left: 0;
+    margin-top: 20px;
+    border-radius: 20px;
+  }
+}
+@media(max-width:600px){
+  .profile-wrap{
+    position: absolute;
+    top: 50%;
+    left: 63%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 400px;
+    height: 500px;
+    overflow: auto;
+    display: block;
+  }
+  .profile-wrap::-webkit-scrollbar{
+    width: 0;
+  }
+  .profile-wrap .text-box{
+    width: 300px;
+    margin-left: 0;
+  }
+  .modal-btn{
+    width: 120px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    background-color: #B7CFF7;
+    margin-left: 0;
+    margin-top: 20px;
+    border-radius: 20px;
+  }
+}
+/* 모달 초기 상태 */
+.modal{
+  display: none;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* 모달이 나타날 때 */
+.modal.active{
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+.modal-wrap{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(45, 51, 79, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-wrap .modal-modal-box{
+  position: fixed;
+  width: 1000px;
+  height: 600px;
+  border-radius: 10px;
+  background-color: #5974BD;
+  display: flex;
+  justify-content: start;
+}
+.modal-wrap .modal-modal-box::before{
+  content: "";
+  position: fixed;
+  z-index: 10;
+  width: 1000px;
+  height: 40px;
+  background-color: #5974BD;
+  border-radius: 10px;
+}
+.modal-wrap .modal-modal-box::after{
+  content: "";
+  position: fixed;
+  bottom: 70px;
+  z-index: 10;
+  width: 1000px;
+  height: 40px;
+  background-color: #5974BD;
+  border-radius: 10px;
+}
+.modal-wrap .modal-modal-box .modal-close-btn{
+  position: absolute;
+  top: 0;
+  right: -50px;
+  width: 30px;
+  height: 30px;
+  z-index: 12;
+  border: #ffffff 3px solid;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.modal-wrap .modal-modal-box .modal-close-btn:hover{
+ border-radius: 50%;
+}
+
+.modal-wrap .modal-modal-box .modal-profile-box{
+  width: 400px;
+  height: 600px;
+  border-right: #A2A2A2 dashed 1px;
+}
+.modal-wrap .modal-modal-box .modal-profile-box .modal-profile-header{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.modal-wrap .modal-modal-box .modal-profile-box .modal-profile-header .modal-img-box{
+  width: 170px;
+  height: 170px;
+  margin-left: 120px;
+  margin-top: 40px;
+}
+.modal-wrap .modal-modal-box .modal-profile-box .modal-img-box img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.modal-profile-title{
+  width: 100%;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.modal-profile-job{
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  margin-bottom: 35px;
+}
+.modal-wrap .modal-modal-box .modal-profile-box .modal-profile-content{
+  width: 100%;
+  position: relative;
+}
+.modal-profile-name-box,
+.modal-profile-adress-box,
+.modal-profile-phone-box,
+.modal-profile-mail-box,
+.modal-profile-github-box,
+.modal-profile-togithub-box{
+  width: 75%;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 50px;
+  border-bottom: #A2A2A2 dashed 1px;
+}
+.modal-profile-name,
+.modal-profile-adress,
+.modal-profile-phone,
+.modal-profile-mail,
+.modal-profile-github,
+.modal-profile-togithub{
+  color: #ffffff;
+  font: 500 17px/10px "";
+}
+.modal-contact-me{
+  width: 275px;
+  height: 40px;
+  background-color: #2D334F;
+  border-radius: 30px;
+  text-align: center;
+  font: 500 18px/40px "";
+  position: absolute;
+  bottom: -65px;
+  z-index: 11;
+  left: 60px;
+  transition: all 0.3s ease-in-out;
+}
+.modal-contact-me:hover{
+  background-color: #ffffff;
+}
+.modal-contact-me:hover a{
+  color: #5974BD;
+}
+.modal-body{
+  width: 55%;
+  overflow: auto;
+}
+.modal-body::-webkit-scrollbar {
+  width: 0; /* Webkit (Chrome, Safari)에서 스크롤 바 숨김 */
+}
+.modal-body p{
+  margin-left: 40px;
+}
+.modal-body .modal-body-title,
+.modal-body-position,
+.modal-experience-timeline,
+.modal-Education-timeline,
+.modal-project{
+  margin: 50px 0 30px 40px;
+  padding-bottom: 15px;
+  border-bottom: #A2A2A2 dashed 1px;
+}
+.modal-body .modal-body-title h3,
+.modal-body .modal-body-position h3,
+.modal-body .modal-experience-timeline h3,
+.modal-body .modal-Education-timeline h3,
+.modal-body .modal-project h3{
+  display: inline-block;
+}
+.modal-circle-progress-bar ul{
+  display: flex;
+  justify-content: center;
+}
+.list-inner{
+  width: 150px;
+  margin-left: 30px;
+}
+.list-inner .mycircle{
+  position: relative;
+  width: 150px;
+  height: 150px;
+}
+.list-inner .mycircle .number, .number1{
+  position: absolute;
+  top: 38%;
+  left: 35%;
+  font: 500 15px "";
+  color: #FFFFFF;
+}
+.list-inner .mycircle .progress-name{
+  position: absolute;
+  bottom: 0;
+  left: 23%;
+}
+.list-inner .mycircle canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.timeline-box ul{
+  width: 90%;
+  margin-left: 10%;
+  border-left: #A2A2A2 1px solid;
+}
+.timeline-box ul li{
+  list-style: circle;
+  display: flex;
+  justify-content: start;
+  margin-bottom: 50px;
+  position: relative;
+}
+.timeline-box ul li::before{
+  position: absolute;
+  top: 50%;
+  left: -6px;
+  transform: translateY(-50%);
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-color: #B7CFF7;
+  border-radius: 50%;
+}
+.timeline-box ul li .time{
+  width: 100px;
+  height: 40px;
+  background-color: #2D334F;
+  text-align: center;
+  font: 500 15px/40px "";
+  border-radius: 20px;
+  margin-left: 30px;
+}
+.timeline-box ul li .place{
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  margin-left: 70px;
+}
+.timeline-box ul li .place .place-what{color: #b1b1b1;}
+.project-img-box{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+}
+.project-img{
+  position: relative;
+  width: 450px;
+  height: 250px;
+  margin-left: 70px;
+  margin-bottom: 50px;
+}
+.project-img #project-ref, #project-ref2{
+  width: 170px;
+  text-align: center;
+  border: 2px #ffffff solid;
+  border-radius: 15px;
+  position: absolute;
+  bottom: 80px;
+  left: 20px;
+  display: none;
+}
+.project-img #project-img-title, #project-img-title2{
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  z-index: 9;
+  display: none;
+}
+.project-img #project-img-content, #project-img-content2{
+  position: absolute;
+  top: 50px;
+  left:-20px;
+  display: none;
+  width: 410px;
+}
+.project-img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+@media(max-width:1300px){
+  .modal-wrap .modal-modal-box{
+    width: 700px;
+  }
+  .modal-wrap .modal-modal-box .modal-profile-box{
+    width: 240px;
+  }
+  .modal-wrap .modal-modal-box .modal-profile-box .modal-profile-header .modal-img-box{
+    width: 110px;
+    height: 110px;
+    margin-left: 70px;
+  }
+  .modal-profile-title{
+    font-size: 15px;
+  }
+  .modal-profile-job{
+    font-size: 11px;
+  }
+  .modal-profile-name,
+  .modal-profile-adress,
+  .modal-profile-phone,
+  .modal-profile-mail,
+  .modal-profile-github,
+  .modal-profile-togithub{
+    color: #ffffff;
+    font: 500 12px/10px "";
+  }
+  .modal-contact-me{
+    width: 150px;
+    height: 30px;
+    font: 500 15px/30px "";
+    bottom: -40px;
+    left: 45px;
+  }
+  .modal-wrap .modal-modal-box::before{
+    width: 700px;
+  }
+  .modal-wrap .modal-modal-box::after{
+    width: 700px;
+  }
+  .timeline-box ul li .time{
+    width: 100px;
+    height: auto;
+    background-color: #2D334F;
+    text-align: center;
+    font: 500 13px/40px "";
+    border-radius: 20px;
+    margin-left: 30px;
+  }
+  .timeline-box ul li .place{
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin-left: 70px;
+  }
+  .modal-profile-name-box,
+  .modal-profile-adress-box,
+  .modal-profile-phone-box,
+  .modal-profile-mail-box,
+  .modal-profile-github-box,
+  .modal-profile-togithub-box{
+    margin-left: 30px;
+  }
+  .project-img{
+    width: 300px;
+    height: 200px;
+  }
+  .project-img #project-ref, #project-ref2{
+    width: 100px;
+    font : 15px "";
+    bottom: 30px;
+  }
+  .project-img #project-img-content, #project-img-content2{
+    position: absolute;
+    top: 50px;
+    left:-20px;
+    display: none;
+    width: 270px;
+    font-size: 13px;
+  }
+}
+
+@media(max-width:1041px){
+  .modal-wrap .modal-modal-box{
+    width: 700px;
+  }
+  .modal-wrap .modal-modal-box{
+    display: block;
+    overflow: auto;
+  }
+  .modal-wrap .modal-modal-box::-webkit-scrollbar{
+    width: 0;
+  } 
+  .modal-wrap .modal-modal-box .modal-profile-box{
+    width: 100%;
+    border: none;
+  }
+  .modal-wrap .modal-modal-box .modal-profile-box .modal-profile-header .modal-img-box{
+    width: 250px;
+    height: 250px;
+    margin-left: 33%;
+  }
+  .modal-profile-name-box,
+  .modal-profile-adress-box,
+  .modal-profile-phone-box,
+  .modal-profile-mail-box,
+  .modal-profile-github-box,
+  .modal-profile-togithub-box{
+    width: 86%;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 50px;
+    border-bottom: #A2A2A2 dashed 1px;
+  }
+  .modal-contact-me{
+    width: 90%;
+    height: 40px;
+    background-color: #2D334F;
+    font: 500 18px/40px "";
+    bottom: -50px;
+    left: 35px;
+  }
+  .modal-body{
+    width: 93%;
+    overflow: auto;
+    margin-top: 40px;
+  }
+  .project-img{
+    width: 550px;
+    height: 350px;
+  }
+  .project-img #project-img-title, #project-img-title2{
+    top: 10px;
+    left: 20px;
+    font-size: 30px;
+  }
+  .project-img #project-img-content, #project-img-content2{
+    top: 50px;
+    left:-20px;
+    width: 500px;
+    font-size: 20px;
+    margin-top: 30px;
+  }
+  .project-img #project-ref, #project-ref2{
+    width: 220px;
+    font : 20px "";
+    bottom: 30px;
+  }
+  .modal-wrap .modal-modal-box .modal-close-btn{
+    position: fixed;
+    top: 20px;
+    right: 20px;  
+  }
+}
+@media(max-width:765px){
+  .modal-wrap .modal-modal-box{
+    width: 300px;
+  }
+  .modal-wrap .modal-modal-box::before{
+    width: 300px;
+  }
+  .modal-wrap .modal-modal-box::after{
+    width: 300px;
+  }
+  .modal-wrap .modal-modal-box .modal-profile-box .modal-profile-header .modal-img-box{
+    width: 110px;
+    height: 110px;
+    margin-left: 100px;
+  }
+  .modal-profile-name-box,
+  .modal-profile-adress-box,
+  .modal-profile-phone-box,
+  .modal-profile-mail-box,
+  .modal-profile-github-box,
+  .modal-profile-togithub-box{
+    width: 75%;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-left: 40px;
+    border-bottom: #A2A2A2 dashed 1px;
+  }
+  .modal-contact-me{
+    width: 75%;
+    height: 30px;
+    background-color: #2D334F;
+    font: 500 15px/30px "";
+    bottom: -50px;
+    left: 35px;
+  }
+  .modal-body{
+    width: 90%;
+    overflow: auto;
+    margin-top: 40px;
+  }
+  .modal-circle-progress-bar ul{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 50px;
+  }
+  .timeline-box ul li .time{
+    width: 100px;
+    height: auto;
+    background-color: #2D334F;
+    text-align: center;
+    font: 1px/30px "";
+    border-radius: 20px;
+    margin-left: 30px;
+  }
+  .timeline-box ul li .place{
+    font-size: 13px;
+    margin-top: 20px;
+  }
+  .project-img{
+    width: 200px;
+    height: 150px;
+    margin-left: 55px;
+  }
+  .project-img #project-img-title, #project-img-title2{
+    top: 10px;
+    left: 20px;
+    font-size: 14px;
+  }
+  .project-img #project-img-content, #project-img-content2{
+    top: 15px;
+    left:-20px;
+    width: 180px;
+    font-size: 11px;
+  }
+  .project-img #project-ref, #project-ref2{
+    width: 100px;
+    font : 8px "";
+    bottom: 10px;
+  }
+}
+
